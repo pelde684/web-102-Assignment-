@@ -3,8 +3,8 @@ const cors = require("cors");
 const morgan = require("morgan");
 const bodyParser = require("body-parser");
 
-const videoRoutes = require("./routes/videos");
 const userRoutes = require("./routes/users");
+const videoRoutes = require("./routes/videos");
 const commentRoutes = require("./routes/comments");
 
 const app = express();
@@ -13,8 +13,14 @@ app.use(cors());
 app.use(morgan("dev"));
 app.use(bodyParser.json());
 
-app.use("/api/videos", videoRoutes);
+// Routes
 app.use("/api/users", userRoutes);
+app.use("/api/videos", videoRoutes);
 app.use("/api/comments", commentRoutes);
+
+// Test route
+app.get("/", (req, res) => {
+  res.send("TikTok API is running");
+});
 
 module.exports = app;
