@@ -1,13 +1,25 @@
 const express = require("express");
 const router = express.Router();
-const userController = require("../controllers/userController");
 
-router.get("/", userController.getAllUsers);
-router.get("/:id", userController.getUserById);
-router.post("/", userController.createUser);
-router.put("/:id", userController.updateUser);
-router.delete("/:id", userController.deleteUser);
+// Example in-memory user data
+const users = [
+  { id: 1, username: "user1", name: "User One" },
+  { id: 2, username: "user2", name: "User Two" }
+];
 
-router.get("/:id/videos", userController.getUserVideos);
+// GET all users
+router.get("/", (req, res) => {
+  res.json(users);
+});
+
+// GET user by ID
+router.get("/:id", (req, res) => {
+  const user = users.find(u => u.id == req.params.id);
+  if (user) {
+    res.json(user);
+  } else {
+    res.status(404).json({ message: "User not found" });
+  }
+});
 
 module.exports = router;

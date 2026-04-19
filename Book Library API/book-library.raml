@@ -1,0 +1,85 @@
+#%RAML 1.0
+title: Book Library API
+version: v1
+baseUri: https://api.booklibrary.com/{version}
+
+types:
+  Book:
+    type: object
+    properties:
+      id: string
+      title: string
+      author: string
+      isbn: string
+
+  Error:
+    type: object
+    properties:
+      code: integer
+      message: string
+      timestamp: datetime
+
+/books:
+  get:
+    description: Retrieve a list of all books in the library.
+    responses:
+      200:
+        description: List of books retrieved successfully.
+        body:
+          application/json:
+            type: Book[]
+
+  post:
+    description: Add a new book to the library.
+    body:
+      application/json:
+        type: Book
+    responses:
+      201:
+        description: Book successfully created.
+
+/books/{bookId}:
+  get:
+    description: Get a specific book by its ID.
+    responses:
+      200:
+        description: Book retrieved successfully.
+        body:
+          application/json:
+            type: Book
+      404:
+        description: Book not found.
+        body:
+          application/json:
+            type: Error
+            example: |
+              {
+                "code": 404,
+                "message": "Book not found",
+                "timestamp": "2026-04-01T17:24:42Z"
+              }
+
+  put:
+    description: Update an existing book.
+    body:
+      application/json:
+        type: Book
+    responses:
+      200:
+        description: Book updated successfully.
+      404:
+        description: Book not found.
+        body:
+          application/json:
+            type: Error
+
+  delete:
+    description: Delete a book from the library.
+    responses:
+      200:
+        description: Book deleted successfully.
+      404:
+        description: Book not found.
+        body:
+          application/json:
+            type: Error

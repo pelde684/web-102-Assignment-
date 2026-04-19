@@ -1,24 +1,12 @@
 // controllers/userController.js
+let users = [];
 
 exports.getUsers = (req, res) => {
-    res.json([{ id: 1, name: 'Pelden' }]);
-};
-
-exports.getUser = (req, res) => {
-    const id = req.params.id;
-    res.json({ id, name: 'Pelden' });
+  res.json({ success: true, data: users });
 };
 
 exports.createUser = (req, res) => {
-    res.json({ message: 'User created' });
-};
-
-exports.updateUser = (req, res) => {
-    const id = req.params.id;
-    res.json({ message: `User ${id} updated` });
-};
-
-exports.deleteUser = (req, res) => {
-    const id = req.params.id;
-    res.json({ message: `User ${id} deleted` });
+  const user = { id: Date.now().toString(), ...req.body };
+  users.push(user);
+  res.status(201).json({ success: true, data: user });
 };
